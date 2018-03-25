@@ -19,10 +19,6 @@ while True:
     request_path = items_line_0[1]
     filesystem_path = "./documentRoot/%s" % request_path
     
-    #Rutas
-    # print(request_path)
-    # print(filesystem_path)
-
     #diccionario
     headers = {}
     i=1
