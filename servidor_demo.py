@@ -1,3 +1,6 @@
+# Integrandes
+# -Israel Jasma
+# -Christopher Patirro
 import socket
 import os
 import json
