@@ -13,18 +13,15 @@ while True:
 
     client_connection, client_address = s.accept()
     request = client_connection.recv(1024)
-    #print(request)
     request_lines = request.decode().split("\r\n")
-    #print(request_lines)
     request_line_0 = request_lines[0]
-    #print(request_line_0)
     items_line_0 = request_line_0.split(" ")
-    #print(items_line_0)
     request_path = items_line_0[1]
     filesystem_path = "./documentRoot/%s" % request_path
-
-    print(request_path)
-    print(filesystem_path)
+    
+    #Rutas
+    # print(request_path)
+    # print(filesystem_path)
 
     #diccionario
     headers = {}
@@ -33,27 +30,26 @@ while True:
 
         primer_header = request_lines[i]
         nombre_header, valor_header = primer_header.split(":", 1)
-        #print(nombre_header)
-        #print(valor_header)
 
         headers[nombre_header] = valor_header
-        #print(headers)
 
         request_echo_header = {}
         request_echo_header["method"] = items_line_0[0]
         request_echo_header["headers"] = headers
-        #print(request_echo_header)
         request_echo_json = json.dumps(request_echo_header)
-        print(request_echo_json)
+        
         i = i+1
 
     if os.path.isfile(filesystem_path):
 
+        file = open(filesystem_path, "r")
+   
         client_connection.sendall("HTTP/1.1 200 OK\r\n".encode())
         client_connection.sendall("X-RequestEcho: %s\r\n\r\n".encode() % request_echo_json)
-        client_connection.sendall("CONTENIDO!! :\r\n".encode())
+        client_connection.sendall("CONTENIDO: \n\r %s\n\r\n\r".encode() % file.read())
+
+        file.close()
     else:
-        print("404 archivo invalido")
         client_connection.sendall("HTTP/1.1 404 Not Found".encode())
 
     client_connection.close()
