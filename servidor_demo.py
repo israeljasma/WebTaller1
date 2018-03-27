@@ -45,7 +45,7 @@ while True:
    
         client_connection.sendall("HTTP/1.1 200 OK\r\n".encode())
         client_connection.sendall("X-RequestEcho: %s\r\n\r\n".encode() % request_echo_json)
-        client_connection.sendall("CONTENIDO: \n\r %s\n\r\n\r".encode() % file.read())
+        client_connection.sendall(file.read().encode())
 
         file.close()
     else:
